@@ -32,10 +32,10 @@ Vault transit secret engine can be considered an Encryption as a Service that is
 
 ### setup Python enviroment
 
-### demo cases
+## demo cases
 
-#### Demo1, Confluent admin can see messages on topic
+### Demo1, Confluent admin can see messages on topic
 
-#### Demo2, Contents can be encryopted
+### Demo2, Contents can be encryopted
 
-#### Demo3, large contents
+### Demo3, large contents
