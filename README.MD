@@ -26,6 +26,8 @@ With those difficaulties and limitations, letting application do encryption and 
 
 Vault transit secret engine can be considered an Encryption as a Service that is easily accessible via API calls. Vault client can send plaintext to end point for encryption, or ciphertext for decryption, without the need to access the DEK or encryption arlgorism and mode.
 
+Hashicorp Vault supports many ways of encryption, including Transit[https://developer.hashicorp.com/vault/docs/secrets/transit], Format Preserving Encryption[https://developer.hashicorp.com/vault/docs/secrets/transform#format-preserving-encryption],Tokenisation[https://developer.hashicorp.com/vault/docs/secrets/transform#tokenization]. Each one is suited for different use cases.
+
 ## demo setup
 
 ### setup confluent
