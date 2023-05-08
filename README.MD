@@ -34,7 +34,30 @@ Format Preserving Encryption is designed to encrypt the data while keeping data 
 
 ### setup confluent
 
+Go to confluent.io and sign-up a free account. During the registraiton process, make sure select "developer" as your job role. Developers get access to free trial without exipry as long as only one Kafka cluster is used.
+
+Once logged in, create a Cloud API key with global access, and setup enviroment variables:
+
+```bash
+export CONFLUENT_CLOUD_API_SECRET=<your secret>
+export CONFLUENT_CLOUD_API_KEY=<your key>
+```
+Get into the terraform subdirectory and do the terraform plan and apply dance:
+
+```bash
+terraform plan
+terraform apply 
+```
+
+The terraform code will setup the confluent enviroment that is ready for the demo.
+
 ### setup Python enviroment
+
+Install python3, pip and virtual enviroment manager, then setup all dependencies:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
 
 ## demo cases
 
