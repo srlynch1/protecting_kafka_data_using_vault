@@ -16,15 +16,15 @@ Ideally the team running Kafka should not be responsible for this risk, if the d
 
 So it is now Kafka producers and consume's responsiblity to encrypt and decrypt the data. This is not easy.
 
-In order to do data encrypt and decrypt operations, applications need a shared Data Encryption Key, and once use only nonce or IV[https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch04s09.html] between encryptor and decryptor, if they are shared without protection, then data is at risk of leaking. Protection means many things, including frequent rotation and encryption in transit and at rest.
+In order to do data encrypt and decrypt operations, applications need a shared Data Encryption Key, and once use only [nonce or IV](https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch04s09.html) between encryptor and decryptor, if they are shared without protection, then data is at risk of leaking. Protection means many things, including frequent rotation and encryption in transit and at rest.
 
-Encryption Arlgorism is also an important fact to consider. Providers and consumers need to share the same arlgorism and mode. Not all languages have mature encryption libraries accross all arlgorisms and modes. 
+Encryption Arlgorism is also an important fact to consider. Providers and consumers need to share the same arlgorism and mode. Not all languages have mature encryption libraries accross all arlgorisms and modes.
 
 With those difficaulties and limitations, letting application do encryption and decryption by themselves is costly in the long run.
 
 ## Solutions
 
-Hashicorp Vault supports many ways of encryption, including Transit[https://developer.hashicorp.com/vault/docs/secrets/transit], Format Preserving Encryption[https://developer.hashicorp.com/vault/docs/secrets/transform#format-preserving-encryption],Tokenisation[https://developer.hashicorp.com/vault/docs/secrets/transform#tokenization]. Each one is suited for different use cases.
+Hashicorp Vault supports many ways of encryption, including [Transit](https://developer.hashicorp.com/vault/docs/secrets/transit), [Format Preserving Encryption](https://developer.hashicorp.com/vault/docs/secrets/transform#format-preserving-encryption),[Tokenisation](https://developer.hashicorp.com/vault/docs/secrets/transform#tokenization). Each one is suited for different use cases.
 
 Vault transit secret engine can be considered a general purpose Encryption as a Service that is easily accessible via API calls. Vault client can send plaintext to end point for encryption, or ciphertext for decryption, without the need to access the DEK or encryption arlgorism and mode.
 
@@ -34,7 +34,7 @@ Format Preserving Encryption is designed to encrypt the data while keeping data 
 
 ### setup confluent
 
-Go to confluent.io and sign-up a free account. During the registraiton process, make sure select "developer" as your job role. Developers get access to free trial without exipry as long as only one Kafka cluster is used.
+Go to [confluent](https://confluent.cloud/) and sign-up a free account. During the registraiton process, make sure select "developer" as your job role. Developers get access to free trial without exipry as long as only one Kafka cluster is used.
 
 Once logged in, create a Cloud API key with global access, and setup enviroment variables:
 
@@ -42,6 +42,7 @@ Once logged in, create a Cloud API key with global access, and setup enviroment 
 export CONFLUENT_CLOUD_API_SECRET=<your secret>
 export CONFLUENT_CLOUD_API_KEY=<your key>
 ```
+
 Get into the terraform subdirectory and do the terraform plan and apply dance:
 
 ```bash
@@ -49,7 +50,7 @@ terraform plan
 terraform apply 
 ```
 
-The terraform code will setup the confluent enviroment that is ready for the demo.
+The terraform code will setup the confluent enviroment that is nessisary for the demo.
 
 ### setup Python enviroment
 
@@ -63,6 +64,6 @@ python3 -m pip install -r requirements.txt
 
 ### Demo1, Confluent admin can see messages on topic
 
-### Demo2, Contents can be encryopted
+### Demo2, content can be encryopted
 
-### Demo3, large contents
+### Demo3, large payload
