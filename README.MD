@@ -57,7 +57,7 @@ you can find the cluster url from confluent_kafka_cluster.demo resource, and API
 
 ### setup Python enviroment
 
-Install python3, pip and virtual enviroment manager, then setup all dependencies:
+[Install python3, pip and virtual enviroment manager](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/), then setup all dependencies:
 
 ```bash
 python3 -m pip install -r requirements.txt
