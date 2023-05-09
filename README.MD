@@ -60,6 +60,10 @@ Install python3, pip and virtual enviroment manager, then setup all dependencies
 python3 -m pip install -r requirements.txt
 ```
 
+### setup demos
+
+Open getting_started.ini and update nessisary.
+
 ## demo cases
 
 ### Demo1, Confluent admin can see messages on topic
