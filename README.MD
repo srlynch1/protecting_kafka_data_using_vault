@@ -43,14 +43,17 @@ export CONFLUENT_CLOUD_API_SECRET=<your secret>
 export CONFLUENT_CLOUD_API_KEY=<your key>
 ```
 
-Get into the terraform subdirectory and do the terraform plan and apply dance:
+Get into the terraform subdirectory and do the terraform dance:
 
 ```bash
+terraform init
 terraform plan
 terraform apply 
 ```
 
-The terraform code will setup the confluent enviroment that is nessisary for the demo.
+The terraform code will setup the confluent enviroment/cluster/topics that are nessisary for the demo.
+
+you can find the cluster url from confluent_kafka_cluster.demo resource, and API key and secret from confluent_api_key.app-manager-kafka-api-key. You need those information later.
 
 ### setup Python enviroment
 
@@ -62,7 +65,7 @@ python3 -m pip install -r requirements.txt
 
 ### setup demos
 
-Rename getting_started.ini.orig to getting_started.ini and update nethe URL to Kafka cluster, API key and API secrets.
+Rename getting_started.ini.orig to getting_started.ini and update the URL to Kafka cluster, API key and API secrets.
 
 ## demo cases
 
