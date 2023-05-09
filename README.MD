@@ -99,7 +99,7 @@ Open 'purchases_large_encrypted' topic and observ messages.
 
 Run consumer_file_transfer.py from one terminal.
 
-copy some files into source directory.
+Create two folders with name 'source' and 'destination', then copy some files into source directory.
 
 Run producer_file_transfer.py to scan files in source folder, generate one use only DEK, encryupt the file contents locally, then send to 'purchases_large_encrypted' topic.
 
