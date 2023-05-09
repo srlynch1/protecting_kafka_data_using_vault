@@ -67,9 +67,9 @@ resource "confluent_api_key" "app-manager-kafka-api-key" {
     }
   }
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 
