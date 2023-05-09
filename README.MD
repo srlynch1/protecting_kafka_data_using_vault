@@ -106,3 +106,7 @@ Run producer_file_transfer.py to scan files in source folder, generate one use o
 The consumer will consume the message, get encrypted DEK from http header, call vault to decrypt the DEK, then decrypt the file contents locally, then save it into destination folder.
 
 In the browser, you should be able to see encrypted messages, encrypted DEK as http header as well as the filename as http header.
+
+## Beyond Kafka
+
+Kafka is one of the most popular streaming platform, but it is not the only one. The concept demostrated here is applicable to any streaming platform, including [AWS Kinesis](https://aws.amazon.com/kinesis/), [AWS SQS](https://aws.amazon.com/sqs/), [AWS SNS](https://aws.amazon.com/sns/), [Google Cloud Pub/Sub](https://cloud.google.com/pubsub), [Microsoft Azure Event Hubs](https://azure.microsoft.com/en-us/products/event-hubs/) as well as  [Apache Spark Streaming](https://www.databricks.com/glossary/what-is-spark-streaming).
