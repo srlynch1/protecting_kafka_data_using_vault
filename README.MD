@@ -67,15 +67,15 @@ python3 -m pip install -r requirements.txt
 
 Rename getting_started.ini.orig to getting_started.ini and update the URL to Kafka cluster, API key and API secrets.
 
-## demo cases
+## Demo cases
 
-### Demo1, Confluent admin can see messages on topic
+### demo 1, Confluent admin can see messages on topic
 
 Login to (confluent.cloud), open the 'purchase' topic, and click 'messages' tab to view messages on the topic.
 
 Run producer.py in a terminal to generate some traffic, message should appear in the browser. This is to show that the contents of the payload is visible to admins.
 
-### Demo2, content can be encryopted
+### demo 2, content can be encryopted
 
 Open the 'purchases_encrypted' topic and select 'messages' tab to observ messages.
 
@@ -89,7 +89,7 @@ Run consumer_from_encrypted.py in another terminal and observ that it can consum
 
 You would also observ that the credit card numbers have been encrypted while preserving their formats. This enables complex lopgic between different topics.
 
-### Demo3, large payload
+### demo 3, large payload
 
 In the last two demo cases, all payloads are sent to Vault for both encryption and decryption operations. In the case of large payloads, this is not nessisarily the best way - large payloads increases network traffic and cause delays between producer and consumers, this also creates lots of CPU intensive operations on Vault nodes, putting presure on the centralised Vault platform. 
 
