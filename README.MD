@@ -8,29 +8,30 @@ It uses a publish-subscribe messaging model where data is produced by producers 
 
 ## Risk of data leaking
 
-In order to make sure data is send to consumers , the data is cached at Kafka. This creates a risk of leaking. The risk is considered acceptable when Kafka Infrastructure runs on-prem. The risk increases when Kafka infrustructure runs on public cloud. It further incfreases when using a SaaS Kafka.
+In order to make sure data is sent to consumers , the data is cached at Kafka. This creates a risk of leaking. The risk is considered acceptable when Kafka infrastructure runs on-premises. The risk increases when Kafka infrustructure runs on public cloud. It further increases when using a SaaS Kafka.
 
-Ideally the team running Kafka should not be responsible for this risk, if the data going through has been encrypted before it is send to Kafka.
+Ideally the team running the Kafka platform should not be responsible for this risk. Instead, producers shoud be encouraged to encrypt data before it is sent to Kafka.
 
 ## Complications
 
-So it is now Kafka producers and consume's responsiblity to encrypt and decrypt the data. This is not easy.
+So it is now Kafka producers and consumers responsiblity to encrypt and decrypt the data. This is not easy.
 
-In order to do data encrypt and decrypt operations, applications need a shared Data Encryption Key, and once use only [nonce or IV](https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch04s09.html) between encryptor and decryptor, if they are shared without protection, then data is at risk of leaking. Protection means many things, including frequent rotation and encryption in transit and at rest.
+In order to do data encrypt and decrypt operations, applications need a shared Data Encryption Key, and single use only [nonce or IV](https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch04s09.html) between encryptor and decryptor, if they are shared without protection, then data is at risk of leaking. Protection means many things, including frequent rotation and encryption in transit and at rest.
 
-Encryption Arlgorism is also an important fact to consider. Providers and consumers need to share the same arlgorism and mode. Not all languages have mature encryption libraries accross all arlgorisms and modes.
+The Encryption Algorithm is also an important factor to consider. Producers and consumers need to share the same arlgorithm and mode. Not all languages have mature encryption libraries accross all arlgorisms and modes.
 
-With those difficaulties and limitations, letting application do encryption and decryption by themselves is costly in the long run.
+With those difficulties and limitations, letting application teams do encryption and decryption by themselves is costly in the long run.
 
 ## Solutions
 
-Hashicorp Vault supports many ways of encryption, including [Transit](https://developer.hashicorp.com/vault/docs/secrets/transit), [Format Preserving Encryption](https://developer.hashicorp.com/vault/docs/secrets/transform#format-preserving-encryption),[Tokenisation](https://developer.hashicorp.com/vault/docs/secrets/transform#tokenization). Each one is suited for different use cases.
+HashiCorp Vault supports many ways of encryption, including [Transit](https://developer.hashicorp.com/vault/docs/secrets/transit), [Format Preserving Encryption](https://developer.hashicorp.com/vault/docs/secrets/transform#format-preserving-encryption), and [Tokenisation](https://developer.hashicorp.com/vault/docs/secrets/transform#tokenization). Each one is suited for different use cases.
 
-Vault transit secret engine can be considered a general purpose Encryption as a Service that is easily accessible via API calls. Vault client can send plaintext to end point for encryption, or ciphertext for decryption, without the need to access the DEK or encryption arlgorism and mode.
+Vault transit secret engine can be considered a general purpose Encryption as a Service that is easily accessible via API calls. Applications can send plaintext data to a Vault end point for encryption, or ciphertext for decryption, without the need to access the DEK or encryption arlgorithm and mode.
 
-Format Preserving Encryption is designed to encrypt the data while keeping data format intact.
+Format Preserving Encryption operates in a similar fashion and is designed to encrypt the data while keeping data format intact.
 
 ## demo setup
+The demo code that follows allows you to setup Kafka Producers using Vault for Encryption as a Service. The examples provided show both transit encrption and format preserving encrption and demonstrate that without much trouble applications teams can leverage Vault as their EaaS provider consistently on any cloud, or with any platform. 
 
 ### setup confluent
 
@@ -51,9 +52,9 @@ terraform plan
 terraform apply 
 ```
 
-The terraform code will setup the confluent enviroment/cluster/topics that are nessisary for the demo.
+The terraform code will setup the confluent enviroment/cluster/topics that are necessary for the demo.
 
-you can find the cluster url from confluent_kafka_cluster.demo resource, and API key and secret from confluent_api_key.app-manager-kafka-api-key. You need those information later.
+You can find the cluster URL from confluent_kafka_cluster.demo resource, and API key and secret from confluent_api_key.app-manager-kafka-api-key. You need those information later.
 
 ### setup Python enviroment
 
@@ -75,7 +76,7 @@ Login to (confluent.cloud), open the 'purchase' topic, and click 'messages' tab 
 
 Run producer.py in a terminal to generate some traffic, message should appear in the browser. This is to show that the contents of the payload is visible to admins.
 
-### demo 2, content can be encryopted
+### demo 2, content can be encrypted
 
 Open the 'purchases_encrypted' topic and select 'messages' tab to observ messages.
 
@@ -83,17 +84,17 @@ Run encryptor.py in a terminal to consume messages from 'purchases' topic, encry
 
 Login to Vault, and rotate the transit encryption key.
 
-Run producer.py in another terminal and observe that the encrypted messages would use the new version automaticly.
+Run producer.py in another terminal and observe that the encrypted messages would use the new version automatically.
 
-Run consumer_from_encrypted.py in another terminal and observ that it can consume messages, decrypt, then print to the terminal. You would observ even thought the encrypted messages were encrypted by two different versions, the consumer can still decrypt without difficault.
+Run consumer_from_encrypted.py in another terminal and observe that it can consume messages, decrypt, then print to the terminal. You would observe even though the encrypted messages were encrypted by two different versions, the consumer can still decrypt without difficulty.
 
-You would also observ that the credit card numbers have been encrypted while preserving their formats. This enables complex lopgic between different topics.
+You would also observe that the credit card numbers have been encrypted while preserving their formats. This enables complex logic between different topics.
 
 ### demo 3, large payload
 
 In the last two demo cases, all payloads are sent to Vault for both encryption and decryption operations. In the case of large payloads, this is not nessisarily the best way - large payloads increases network traffic and cause delays between producer and consumers, this also creates lots of CPU intensive operations on Vault nodes, putting presure on the centralised Vault platform. 
 
-Doing encryption/decrypt operations at the application node using Data Encryption Key generated by vault can avoid expensive network and CPU operations. To ensure security, every operation will have a new DEK, which is also encrypted/transfered with the encrypted payload, only client with right autentication/authorization is able to decrypt the DEK, then use it to decrypt the payload.
+Doing encryption/decryption operations at the application node using Data Encryption Key generated by Vault can avoid expensive network and CPU operations. To ensure security, every operation will have a new DEK, which is also encrypted/transfered with the encrypted payload, only client with right authentication/authorization is able to decrypt the DEK, then use it to decrypt the payload.
 
 Open 'purchases_large_encrypted' topic and observ messages.
 
