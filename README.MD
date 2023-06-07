@@ -31,7 +31,11 @@ Vault transit secret engine can be considered a general purpose Encryption as a 
 Format Preserving Encryption operates in a similar fashion and is designed to encrypt the data while keeping data format intact.
 
 ## demo setup
-The demo code that follows allows you to setup Kafka Producers using Vault for Encryption as a Service. The examples provided show both transit encrption and format preserving encrption and demonstrate that without much trouble applications teams can leverage Vault as their EaaS provider consistently on any cloud, or with any platform. 
+The demo code that follows allows you to setup Kafka Producers using Vault for Encryption as a Service. The examples provided show both transit encrption and format preserving encrption and demonstrate that without much trouble applications teams can leverage Vault as their EaaS provider consistently on any cloud, or with any platform.
+
+
+### pre-requisites
+* Vault Enterprise with ADP license
 
 ### setup confluent
 
@@ -76,13 +80,20 @@ Login to (confluent.cloud), open the 'purchase' topic, and click 'messages' tab 
 
 Run producer.py in a terminal to generate some traffic, message should appear in the browser. This is to show that the contents of the payload is visible to admins.
 
+`python3 producer.py`
+
 ### demo 2, content can be encrypted
 
-Open the 'purchases_encrypted' topic and select 'messages' tab to observ messages.
+* Open the 'purchases_encrypted' topic and select 'messages' tab to observ messages.
+In confluent cloud this is under > Environments > Developement > BASIC_DEMO_KAFKA_CLUSTER
 
-Run encryptor.py in a terminal to consume messages from 'purchases' topic, encrypt, then send to 'purchases_encrypted' topic. Encrypted messages should apprear in the browser. This is to show that Vault can be used to do per-field encryption.
+* Update encryptor.py script, line 61 with your vault address and token
 
-Login to Vault, and rotate the transit encryption key.
+`client = hvac.Client(url='https://nginx', token='s.sxns9tOHTlbY9E0ECc5beMhY', verify=False)`
+
+* Run encryptor.py in a terminal `python3 encryptor.py` .pyto consume messages from 'purchases' topic, encrypt, then send to 'purchases_encrypted' topic. Encrypted messages should apprear in the browser. This is to show that Vault can be used to do per-field encryption.
+
+* Login to Vault, and rotate the transit encryption key.
 
 Run producer.py in another terminal and observe that the encrypted messages would use the new version automatically.
 
